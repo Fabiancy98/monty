@@ -1,22 +1,43 @@
 #include "monty.h"
 
 /**
-  * sub - Subtracts the top element of the stack from the second top element
-  * @stack: Address of stack whose top elements need to be subtracted
-  * @line_number: Line number of opcode currently being executed
-  */
-
-void sub(stack_t **stack, unsigned int line_number)
+ * _sub -  subtracts top element of the stack from the second top element
+ * @head: double pointer to header (top) of the stack
+ * @line_number: counter for line number of the file
+ * Author: Excel Nwachukwu
+ *
+ * Return: void
+ */
+void _sub(stack_t **head, unsigned int line_number)
 {
-	stack_t *temp = *stack;
-	int result = 0;
+	stack_t *current = *head;
+	int nnodes = 1; /*number of elements in stack*/
 
-	if (temp == NULL || temp->next == NULL)
+	if (*head == NULL)
 	{
-		fprintf(stderr, "L%d: can't sub, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
+		free_stack_t(*head);
+
 		exit(EXIT_FAILURE);
 	}
-	result = (temp->next->n) - (temp->n);
-	pop(stack, line_number);
-	(*stack)->n = result;
+
+	while (current->next != NULL)
+	{
+		current = current->next;
+		nnodes++;
+	}
+
+	if (nnodes + 1 <= 2)
+	{
+		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	current = *head; /*current equals to head to make substraction*/
+	current->next->n = current->next->n - current->n; /*the substraction*/
+
+	*head = current->next;
+	free(current);
+	current->prev = NULL;
 }
+

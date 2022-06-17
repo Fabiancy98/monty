@@ -1,21 +1,46 @@
 #include "monty.h"
 
 /**
-  * mul - Multiplies the top two elements of the stack
-  * @stack: The adress of the stack
-  * @line_number: The line number of the command being run
-  */
-void mul(stack_t **stack, unsigned int line_number)
+ * _mul -  multiply top element of the stack with the second top element
+ * @head: top of the stack
+ * @line_number: line number where a wrong command was found
+ * Return: void
+ * author Anteneh Bizuneh for Alx project
+ */
+void _mul(stack_t **head, unsigned int line_number)
 {
-	stack_t *temp = *stack;
-	int product = 0;
+	stack_t *current = *head;
+	int nnodes = 1; /*number of elements in stack*/
 
-	if (temp == NULL || temp->next == NULL)
+	if (*head == NULL)
 	{
-		fprintf(stderr, "L%d: can't mul, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line_number);
+		free_stack_t(*head);
+
 		exit(EXIT_FAILURE);
 	}
-	product = (temp->n) * (temp->next->n);
-	pop(stack, line_number);
-	(*stack)->n = product;
+
+
+	while (current->next != NULL)
+	{
+		current = current->next;
+		nnodes++;
+	}
+
+	if (nnodes + 1 <= 2)
+	{
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line_number);
+		free_stack_t(*head);
+
+		exit(EXIT_FAILURE);
+	}
+
+	current = *head; /*current equals to head to make mul*/
+
+	current->next->n = current->next->n * current->n; /*do the mul*/
+
+	*head = current->next;
+	free(current);
+	current->prev = NULL;
+
 }

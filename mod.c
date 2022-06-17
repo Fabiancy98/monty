@@ -1,20 +1,20 @@
 #include "monty.h"
 
 /**
- * _div -  divides the second top element of the stack by the top element
+ * _mod - get the module of the second top element of the stack and top element
  * @head: double pointer to header (top) of the stack.
  * @line_number: counter for line number of the file.
- * author Anteneh Bizuneh for Alx project
+ * author Anteneh kassaw Bizuneh for Alx project
  * Return: void.
  */
-void _div(stack_t **head, unsigned int line_number)
+void _mod(stack_t **head, unsigned int line_number)
 {
 	stack_t *current = *head;
 	int nnodes = 1; /*number of elements in stack*/
 
 	if (*head == NULL)
 	{
-		fprintf(stderr, "L%u: can't div, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't mod, stack too short\n", line_number);
 		free_stack_t(*head);
 
 		exit(EXIT_FAILURE);
@@ -28,13 +28,13 @@ void _div(stack_t **head, unsigned int line_number)
 
 	if (nnodes + 1 <= 2)
 	{
-		fprintf(stderr, "L%d: can't div, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't mod, stack too short\n", line_number);
 		free_stack_t(*head);
 
 		exit(EXIT_FAILURE);
 	}
 
-	current = *head; /*current equals to head to make division*/
+	current = *head; /*current equals to head to make module*/
 
 	if (current->n == 0)
 	{
@@ -42,7 +42,7 @@ void _div(stack_t **head, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	current->next->n = current->next->n / current->n; /*do the division*/
+	current->next->n = current->next->n % current->n; /*do the mod*/
 
 	*head = current->next;
 	free(current);
