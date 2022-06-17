@@ -1,20 +1,25 @@
 #include "monty.h"
 
 /**
-  * pint - Prints the element at the top of the stack
-  * @stack: Stack to print the element from
-  * @line_number: The line number of the opcode currently being executed
-  */
-
-void pint(stack_t **stack, unsigned int line_number)
+ * _pint - prints the value at the top of the stack
+ * @stack: double pointer to header (top) of the stack
+ * @line_number: counter for line number of the file
+ * Author: Excel Nwachukwu
+ *
+ * Return: void
+ */
+void _pint(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp = *stack;
+	stack_t *current = *stack;
 
-	if (temp == NULL)
+	if (*stack == NULL)
 	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		dprintf(STDERR_FILENO, "L%d: can't pint, stack empty\n", line_number);
+		free_stack_t(*stack);
+
 		exit(EXIT_FAILURE);
 	}
 
-	printf("%d\n", temp->n);
+	printf("%d\n", current->n);
 }
+
